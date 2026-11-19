@@ -5,7 +5,18 @@ header('X-Frame-Options: DENY');
 header('Referrer-Policy: no-referrer');
 header('Cross-Origin-Opener-Policy: same-origin');
 header('Permissions-Policy: accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()');
-header("Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://hm.baidu.com https://hmcdn.baidu.com; connect-src 'self' https://hm.baidu.com https://hmcdn.baidu.com; upgrade-insecure-requests");
+
+// upgrade-insecure-requests only makes sense over HTTPS. On a plain HTTP deployment
+// (e.g. http://nas:13803 inside a LAN) the browser would rewrite every CSS/JS/image
+// request to https:// and fail them all, leaving the page unstyled with broken images.
+$sspksIsHttps = (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off')
+    || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https'
+    || (int) ($_SERVER['SERVER_PORT'] ?? 0) === 443;
+$sspksCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://hm.baidu.com https://hmcdn.baidu.com; connect-src 'self' https://hm.baidu.com https://hmcdn.baidu.com";
+if ($sspksIsHttps) {
+    $sspksCsp .= '; upgrade-insecure-requests';
+}
+header('Content-Security-Policy: ' . $sspksCsp);
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     http_response_code(500);
