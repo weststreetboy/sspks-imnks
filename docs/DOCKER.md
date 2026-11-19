@@ -33,11 +33,19 @@ README 里的方案是「Nginx + PHP-FPM + 手工配路由」。这个镜像是�
 | `SSPKS_BASE_URL` | `site.base_url` | **必须**和 DSM 里填的来源地址一致（含端口、末尾 `/`） |
 | `SSPKS_SITE_NAME` | `site.name` | 站点标题 |
 | `SSPKS_UPDATE_TOKEN` | `management_password` | 索引管理页密码，覆盖 `conf/database.yaml` |
+| `SSPKS_UPDATE_ACTION` | `update.action` | 索引刷新入口 `?action=<值>`，3–128 位 URL 安全字符 |
+| `SSPKS_BROWSER_DOWNLOAD_ENABLED` | `browser_download.enabled` | 网页「下载 SPK」按钮，`true/false` |
+| `SSPKS_BROWSER_OBFUSCATE_IMAGES` | `browser_url_obfuscation.package_images` | 图标走不透明地址 |
+| `SSPKS_BROWSER_OBFUSCATE_DOWNLOADS` | `browser_url_obfuscation.spk_downloads` | 网页下载走不透明地址（依赖 `/_sspks_download/`） |
+| `SSPKS_LANGUAGE_FIXED` | `language.fixed` | 固定语言，如 `chs`、`enu`；留空跟随浏览器 |
+| `SSPKS_LANGUAGE_SHOW_SELECTOR` | `language.show_selector` | 是否显示语言切换菜单 |
 | `SSPKS_DB_TYPE` | `database.type` | `sqlite`（默认）或 `mysql` |
 | `SSPKS_DB_PATH` | `database.database` | SQLite 路径，默认 `runtime/sspks.sqlite3` |
 | `SSPKS_DB_HOST / PORT / NAME / USER / PASSWORD` | MySQL 连接 | 用 MySQL 时配这组 |
 | `SSPKS_PACKAGES_MAINTAINER / DISTRIBUTOR / SUPPORT_URL` 等 | `packages.*` | 包元数据兜底值 |
 | `SSPKS_COMMIT` / `SSPKS_BRANCH` | 页脚版本信息 | 可选 |
+
+布尔类环境变量支持 `1/true/on/yes/enabled`，其余值一律按 `false` 处理（写成 `"false"` 也确实是关）。
 
 ## 部署
 

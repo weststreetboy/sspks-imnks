@@ -40,6 +40,13 @@ services:
       SSPKS_PACKAGES_SUPPORT_URL: "https://spks.lovelypeople.site/"
       # 索引管理页密码，来源 .env（不要写死在这里，仓库是公开的）
       SSPKS_UPDATE_TOKEN: "${SSPKS_UPDATE_TOKEN:-}"
+      # 索引刷新入口：?action=<这个值>，改成别人猜不到的串
+      SSPKS_UPDATE_ACTION: "local-refresh-21b7fc37"
+      # 网页上的「下载 SPK」按钮，默认关闭，开了才能在页面直接下
+      SSPKS_BROWSER_DOWNLOAD_ENABLED: "true"
+      # 下载/图标走不透明地址（依赖镜像 nginx 里的 /_sspks_download/）
+      SSPKS_BROWSER_OBFUSCATE_IMAGES: "true"
+      SSPKS_BROWSER_OBFUSCATE_DOWNLOADS: "true"
 
     volumes:
       # spk 目录：平铺放 .spk，文件名保持 名称_架构-DSM版本_版本号.spk

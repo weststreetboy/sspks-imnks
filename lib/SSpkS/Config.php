@@ -97,6 +97,20 @@ final class Config
         'SSPKS_PACKAGES_DISTRIBUTOR' => ['packages', 'distributor'],
         'SSPKS_PACKAGES_DISTRIBUTOR_URL' => ['packages', 'distributor_url'],
         'SSPKS_PACKAGES_SUPPORT_URL' => ['packages', 'support_url'],
+        'SSPKS_UPDATE_ACTION' => ['update', 'action'],
+        'SSPKS_LANGUAGE_FIXED' => ['language', 'fixed'],
+        'SSPKS_LANGUAGE_SHOW_SELECTOR' => ['language', 'show_selector'],
+        'SSPKS_BROWSER_DOWNLOAD_ENABLED' => ['browser_download', 'enabled'],
+        'SSPKS_BROWSER_OBFUSCATE_IMAGES' => ['browser_url_obfuscation', 'package_images'],
+        'SSPKS_BROWSER_OBFUSCATE_DOWNLOADS' => ['browser_url_obfuscation', 'spk_downloads'],
+    ];
+
+    // 这几个键必须是布尔，直接按字符串写入会被 normaliseOptions() 里的 (bool) 强转成 true。
+    private const BOOLEAN_SITE_ENV = [
+        'SSPKS_LANGUAGE_SHOW_SELECTOR',
+        'SSPKS_BROWSER_DOWNLOAD_ENABLED',
+        'SSPKS_BROWSER_OBFUSCATE_IMAGES',
+        'SSPKS_BROWSER_OBFUSCATE_DOWNLOADS',
     ];
 
     private const MYSQL_DATABASE_ENV = [
@@ -176,9 +190,18 @@ final class Config
     {
         foreach (self::SITE_ENV as $envName => $path) {
             $value = $this->env($envName);
-            if ($value !== '') {
-                $this->config[$path[0]][$path[1]] = $value;
+            if ($value === '') {
+                continue;
             }
+            if (in_array($envName, self::BOOLEAN_SITE_ENV, true)) {
+                $this->config[$path[0]][$path[1]] = in_array(
+                    strtolower(trim($value)),
+                    ['1', 'true', 'on', 'yes', 'enabled'],
+                    true
+                );
+                continue;
+            }
+            $this->config[$path[0]][$path[1]] = $value;
         }
         $configuredDatabaseType = strtolower(trim((string) ($this->databaseConfig['type'] ?? 'mysql')));
         $databaseType = strtolower(trim($this->env('SSPKS_DB_TYPE')));
