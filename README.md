@@ -28,6 +28,17 @@
 
 发布包包含 vendor/，无需重新安装依赖。
 
+### 用 Docker 跑（可选）
+
+不想装 PHP/Nginx 时，直接用镜像，路由与环境变量覆盖都已内置：
+
+```bash
+docker compose up -d        # 首次先把 .env.example 复制成 .env 并填 SSPKS_UPDATE_TOKEN
+```
+
+镜像 `ghcr.io/weststreetboy/sspks-imnks:latest`（amd64 / arm64），端口、挂载、环境变量、
+群晖 Container Manager 的具体步骤见 [docs/DOCKER.md](docs/DOCKER.md)。
+
 ## 2. 部署并配置
 
 1. 下载 Release 中的发布 ZIP，解压到网站目录。

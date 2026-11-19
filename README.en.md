@@ -28,6 +28,17 @@ Simplified Chinese and English are maintained directly. Other languages are AI-t
 
 Release packages include vendor/; no dependency installation is required.
 
+### Run with Docker (optional)
+
+Skip installing PHP/Nginx on the host — the image already ships the same routes and env overrides:
+
+```bash
+docker compose up -d        # copy .env.example to .env and set SSPKS_UPDATE_TOKEN first
+```
+
+Image `ghcr.io/weststreetboy/sspks-imnks:latest` (amd64 / arm64). Ports, volumes, environment
+variables and Synology Container Manager steps: [docs/DOCKER.md](docs/DOCKER.md).
+
 ## 2. Deploy and configure
 
 1. Download the release ZIP and extract it into your web directory.
