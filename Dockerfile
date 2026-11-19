@@ -4,8 +4,8 @@
 FROM php:8.4-fpm-alpine
 
 RUN set -eux; \
-    apk add --no-cache nginx supervisor tzdata oniguruma; \
-    apk add --no-cache --virtual .build-deps oniguruma-dev; \
+    apk add --no-cache nginx supervisor tzdata oniguruma sqlite-libs; \
+    apk add --no-cache --virtual .build-deps oniguruma-dev sqlite-dev; \
     docker-php-ext-install -j"$(nproc)" pdo_mysql pdo_sqlite mbstring; \
     apk del --no-network .build-deps; \
     rm -rf /var/cache/apk/* /tmp/pear
