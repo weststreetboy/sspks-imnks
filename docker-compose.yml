@@ -1,23 +1,23 @@
-# SSPKS-IMNKS 群晖 Container Manager 部署
+# SSPKS-IMNKS 群晖 Container Manager 部署（变量版）
 #
 # 镜像：ghcr.io/weststreetboy/sspks-imnks:latest（linux/amd64 + linux/arm64）
 #       由 .github/workflows/docker-publish.yml 自动构建
 #
-# 需要改的地方只有三处：
-#   1) SSPKS_BASE_URL —— DSM 实际访问的地址，末尾带 /（IP/端口变了要一起改）
-#   2) volumes 的 /volume6/docker/sspks-imnks —— 换成你放 spk 的实际目录
-#   3) SSPKS_UPDATE_TOKEN —— 从同目录 .env 读取，别写进这个文件（会被提交）
+# 这个文件可以原样放进公开仓库：所有真实值（IP / 域名 / 站点名 / 密码）都写在
+# 同目录的 .env 里，由 docker compose 自动读取，不会进版本库。
 #
 # 用法：
-#   cp .env.example .env && vi .env      # 填管理密码
+#   cp .env.example .env && vi .env      # 填 IP、站点名、管理密码
 #   docker compose up -d
 #   docker compose logs -f sspks
+#
+# 变量名后面的 :- 是「没配置时的占位默认值」，只为了 compose 不报错。
 
 name: sspks-imnks
 
 services:
   sspks:
-    image: ghcr.io/weststreetboy/sspks-imnks:latest
+    image: ${SSPKS_IMAGE:-ghcr.io/weststreetboy/sspks-imnks:latest}
     # 网络拉不到 ghcr.io 时，用 Actions 的 tar artifact 在 NAS 上 docker load，
     # 然后把下面这行的注释去掉，避免 up 时又去联网拉取
     # pull_policy: never
@@ -25,39 +25,40 @@ services:
     restart: unless-stopped
 
     ports:
-      - "13803:80"
+      # 左边是 NAS 上对外暴露的端口，DSM 套件来源地址里必须用同一个
+      - "${SSPKS_PORT:-13803}:80"
 
     environment:
-      TZ: Asia/Shanghai
+      TZ: "${SSPKS_TZ:-Asia/Shanghai}"
       # DSM 里填的套件来源地址必须和这里完全一致（含端口、末尾 /），
       # 否则索引里的下载链接会指到别的主机
-      SSPKS_BASE_URL: "http://ip:13803/"
-      SSPKS_SITE_NAME: "xxx 套件源"
-      SSPKS_SITE_DESCRIPTION: "自建 DSM 7 套件源：自己编译的 SPK 也能像官方来源一样管理和升级。"
+      SSPKS_BASE_URL: "${SSPKS_BASE_URL:-http://ip:13803/}"
+      SSPKS_SITE_NAME: "${SSPKS_SITE_NAME:-xxx 套件源}"
+      SSPKS_SITE_DESCRIPTION: "${SSPKS_SITE_DESCRIPTION:-自建 DSM 7 套件源}"
       # 默认配色：teal / ocean / violet / dark / aurora（aurora 是深色紫青渐变）
-      SSPKS_DEFAULT_PALETTE: "teal"
-      SSPKS_PACKAGES_MAINTAINER: "名称"
-      SSPKS_PACKAGES_MAINTAINER_URL: "域名/"
-      SSPKS_PACKAGES_DISTRIBUTOR: "数据库名字"
-      SSPKS_PACKAGES_DISTRIBUTOR_URL: "域名/"
-      SSPKS_PACKAGES_SUPPORT_URL: "域名/"
-      # 索引管理页密码，来源 .env（不要写死在这里，仓库是公开的）
+      SSPKS_DEFAULT_PALETTE: "${SSPKS_DEFAULT_PALETTE:-teal}"
+      SSPKS_PACKAGES_MAINTAINER: "${SSPKS_PACKAGES_MAINTAINER:-名称}"
+      SSPKS_PACKAGES_MAINTAINER_URL: "${SSPKS_PACKAGES_MAINTAINER_URL:-http://ip:13803/}"
+      SSPKS_PACKAGES_DISTRIBUTOR: "${SSPKS_PACKAGES_DISTRIBUTOR:-名称}"
+      SSPKS_PACKAGES_DISTRIBUTOR_URL: "${SSPKS_PACKAGES_DISTRIBUTOR_URL:-http://ip:13803/}"
+      SSPKS_PACKAGES_SUPPORT_URL: "${SSPKS_PACKAGES_SUPPORT_URL:-http://ip:13803/}"
+      # 索引管理页密码
       SSPKS_UPDATE_TOKEN: "${SSPKS_UPDATE_TOKEN:-}"
-      # 索引刷新入口：?action=<这个值>，改成别人猜不到的串
-      SSPKS_UPDATE_ACTION: "local-refresh-21b7fc37"
-      # 网页上的「下载 SPK」按钮，默认关闭，开了才能在页面直接下
-      SSPKS_BROWSER_DOWNLOAD_ENABLED: "true"
+      # 索引刷新入口：?action=<这个值>
+      SSPKS_UPDATE_ACTION: "${SSPKS_UPDATE_ACTION:-change-this-refresh-action}"
+      # 网页上的「下载 SPK」按钮
+      SSPKS_BROWSER_DOWNLOAD_ENABLED: "${SSPKS_BROWSER_DOWNLOAD_ENABLED:-true}"
       # 下载/图标走不透明地址（依赖镜像 nginx 里的 /_sspks_download/）
-      SSPKS_BROWSER_OBFUSCATE_IMAGES: "true"
-      SSPKS_BROWSER_OBFUSCATE_DOWNLOADS: "true"
+      SSPKS_BROWSER_OBFUSCATE_IMAGES: "${SSPKS_BROWSER_OBFUSCATE_IMAGES:-true}"
+      SSPKS_BROWSER_OBFUSCATE_DOWNLOADS: "${SSPKS_BROWSER_OBFUSCATE_DOWNLOADS:-true}"
 
     volumes:
       # spk 目录：平铺放 .spk，文件名保持 名称_架构-DSM版本_版本号.spk
-      - /volume6/docker/sspks-imnks/packages:/var/www/sspks-imnks/packages
+      - "${SSPKS_DATA_DIR:-./data}/packages:/var/www/sspks-imnks/packages"
       # SQLite 索引库，删了只是要重新刷新一次索引
-      - /volume6/docker/sspks-imnks/runtime:/var/www/sspks-imnks/runtime
+      - "${SSPKS_DATA_DIR:-./data}/runtime:/var/www/sspks-imnks/runtime"
       # 图标等缓存
-      - /volume6/docker/sspks-imnks/cache:/var/www/sspks-imnks/cache
+      - "${SSPKS_DATA_DIR:-./data}/cache:/var/www/sspks-imnks/cache"
 
     logging:
       driver: json-file

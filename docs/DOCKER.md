@@ -51,20 +51,38 @@ README 里的方案是「Nginx + PHP-FPM + 手工配路由」。这个镜像是�
 
 ## 部署
 
+`docker-compose.yml` 里**不写任何真实值**，全部通过同目录 `.env` 注入（`.env` 已在 `.gitignore` 里，不会进仓库）。
+
 ```bash
 mkdir -p /volume6/docker/sspks-imnks/{packages,runtime,cache}
 cd /volume6/docker/sspks-imnks
-# 放好 docker-compose.yml 和 .env（从 .env.example 复制后填密码）
+
+cp .env.example .env
+vi .env            # 至少改：SSPKS_BASE_URL、SSPKS_SITE_NAME、SSPKS_UPDATE_TOKEN、SSPKS_UPDATE_ACTION
+
 docker compose up -d
+docker compose config | head -30     # 确认变量都替换成了真实值
 docker compose logs -f sspks
 ```
+
+`.env` 中最关键的几项：
+
+| 变量 | 作用 | 注意 |
+|---|---|---|
+| `SSPKS_BASE_URL` | 站点对外地址 | 必须与 DSM 里填的来源地址完全一致，末尾带 `/` |
+| `SSPKS_PORT` | 对外端口 | 与 `SSPKS_BASE_URL` 里的端口一致 |
+| `SSPKS_DATA_DIR` | spk/库/缓存根目录 | 下面要有 `packages`、`runtime`、`cache` |
+| `SSPKS_UPDATE_TOKEN` | 索引管理密码 | ≥16 位随机串 |
+| `SSPKS_UPDATE_ACTION` | 刷新入口 | `?action=<这个值>` |
+| `SSPKS_SITE_NAME` / `SSPKS_SITE_DESCRIPTION` | 站点标题与描述 | — |
+| `SSPKS_DEFAULT_PALETTE` | 默认配色 | `teal`/`ocean`/`violet`/`dark`/`aurora` |
 
 然后：
 
 1. 把 `.spk` 丢进 `/volume6/docker/sspks-imnks/packages`
-2. 打开 `http://192.168.50.4:13803/?action=<你在 conf/sspks.yaml 配的 update.action>`，
+2. 打开 `http://<NAS-IP>:13803/?action=<你在 conf/sspks.yaml 配的 update.action>`，
    输入密码刷新索引（密码来自 `SSPKS_UPDATE_TOKEN`）
-3. DSM 套件中心 → 设置 → 套件来源 → 新增 `http://192.168.50.4:13803/`
+3. DSM 套件中心 → 设置 → 套件来源 → 新增 `http://<NAS-IP>:13803/`
 
 ## 拉不到 ghcr.io 时
 
