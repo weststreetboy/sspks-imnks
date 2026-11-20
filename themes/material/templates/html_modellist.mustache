@@ -13,57 +13,59 @@
     <span class="page-hero__synology-mark" aria-hidden="true"></span>
 </section>
 
-<section class="source-card" id="setup-info" aria-labelledby="source-card-label">
-    <span class="source-card__icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 3.2 3.6 7.1 12 11l8.4-3.9L12 3.2Z"></path><path d="M3.6 12 12 15.9 20.4 12"></path><path d="M3.6 16.9 12 20.8 20.4 16.9"></path></svg>
-    </span>
-    <div class="source-card__body">
-        <span class="source-card__label" id="source-card-label">{{ source_title }}</span>
-        <code class="source-card__url" id="source-url">{{ baseUrl }}</code>
-    </div>
-    <div class="source-card__actions">
-        <button class="mdl-button source-card__copy" type="button" data-copy-source>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="4" width="11" height="14" rx="2.4"></rect><path d="M15.5 18.5v.7A1.8 1.8 0 0 1 13.7 21H5.8A1.8 1.8 0 0 1 4 19.2V8.4A1.8 1.8 0 0 1 5.8 6.6h.7"></path></svg>
-            <span data-copy-label>{{ copy_address }}</span>
-        </button>
+<section class="source-card onboard-card" id="setup-info" aria-labelledby="source-card-label">
+    <div class="source-card__row">
+        <span class="source-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3.2 3.6 7.1 12 11l8.4-3.9L12 3.2Z"></path><path d="M3.6 12 12 15.9 20.4 12"></path><path d="M3.6 16.9 12 20.8 20.4 16.9"></path></svg>
+        </span>
+        <div class="source-card__body">
+            <span class="source-card__label" id="source-card-label">{{ source_title }}</span>
+            <code class="source-card__url" id="source-url">{{ baseUrl }}</code>
+        </div>
+        <div class="source-card__actions">
+            <button class="mdl-button source-card__copy" type="button" data-copy-source>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="4" width="11" height="14" rx="2.4"></rect><path d="M15.5 18.5v.7A1.8 1.8 0 0 1 13.7 21H5.8A1.8 1.8 0 0 1 4 19.2V8.4A1.8 1.8 0 0 1 5.8 6.6h.7"></path></svg>
+                <span data-copy-label>{{ copy_address }}</span>
+            </button>
 {{# updatePageUrl }}
-        <a class="mdl-button source-card__edit" href="{{ updatePageUrl }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L20 8l-4-4L4 16v4Z"></path><path d="M14.5 5.5 18.5 9.5"></path></svg>
-            {{ edit_address }}
-        </a>
+            <a class="mdl-button source-card__edit" href="{{ updatePageUrl }}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L20 8l-4-4L4 16v4Z"></path><path d="M14.5 5.5 18.5 9.5"></path></svg>
+                {{ edit_address }}
+            </a>
 {{/ updatePageUrl }}
+        </div>
+        <span class="visually-hidden" aria-live="polite" aria-atomic="true" data-copy-status></span>
     </div>
-    <span class="visually-hidden" aria-live="polite" aria-atomic="true" data-copy-status></span>
-</section>
 
-<section class="steps-panel" aria-labelledby="steps-panel-title">
-    <header class="steps-panel__head">
-        <h2 id="steps-panel-title">{{ steps_title }}</h2>
-        <span>{{ steps_done }}</span>
-    </header>
-    <ol class="steps-panel__list">
-        <li>
-            <span class="steps-panel__index">1</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_one_title }}</p>
-                <p class="steps-panel__desc">{{ step_one_desc }}</p>
-            </div>
-        </li>
-        <li>
-            <span class="steps-panel__index">2</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_two_title }}</p>
-                <p class="steps-panel__desc">{{ step_two_desc }}</p>
-            </div>
-        </li>
-        <li>
-            <span class="steps-panel__index">3</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_three_title }}</p>
-                <p class="steps-panel__desc">{{ step_three_desc }}</p>
-            </div>
-        </li>
-    </ol>
+    <div class="onboard-steps">
+        <header class="onboard-steps__head">
+            <h2>{{ steps_title }}</h2>
+            <span>{{ steps_done }}</span>
+        </header>
+        <ol class="onboard-steps__list">
+            <li>
+                <span class="onboard-steps__index">1</span>
+                <div class="onboard-steps__body">
+                    <p class="onboard-steps__title">{{ step_one_title }}</p>
+                    <p class="onboard-steps__desc">{{ step_one_desc }}</p>
+                </div>
+            </li>
+            <li>
+                <span class="onboard-steps__index">2</span>
+                <div class="onboard-steps__body">
+                    <p class="onboard-steps__title">{{ step_two_title }}</p>
+                    <p class="onboard-steps__desc">{{ step_two_desc }}</p>
+                </div>
+            </li>
+            <li>
+                <span class="onboard-steps__index">3</span>
+                <div class="onboard-steps__body">
+                    <p class="onboard-steps__title">{{ step_three_title }}</p>
+                    <p class="onboard-steps__desc">{{ step_three_desc }}</p>
+                </div>
+            </li>
+        </ol>
+    </div>
 </section>
 
 <section class="stat-grid" aria-label="{{ overview_title }}">
