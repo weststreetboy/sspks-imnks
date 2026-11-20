@@ -123,36 +123,58 @@
     }
 
     function setupCopyButton() {
-        var button = document.querySelector('[data-copy-source]');
+        var buttons = document.querySelectorAll('[data-copy-source]');
         var source = document.getElementById('source-url');
         var status = document.querySelector('[data-copy-status]');
-        if (!button || !source) {
+        if (!buttons.length || !source) {
             return;
         }
 
-        button.addEventListener('click', function () {
-            var label = button.querySelector('[data-copy-label]') || button;
-            var original = label.textContent;
-            copyText(source.textContent.trim())
-                .then(function () {
-                    label.textContent = t('copied', 'Copied');
-                    if (status) {
-                        status.textContent = t('copy_success_announcement', 'Package source URL copied to the clipboard.');
-                    }
-                    window.setTimeout(function () {
-                        label.textContent = original;
-                    }, 1600);
-                })
-                .catch(function () {
-                    label.textContent = t('copy_manual', 'Copy manually');
-                    if (status) {
-                        status.textContent = t('copy_failure_announcement', 'Automatic copying failed. Copy the package source URL manually.');
-                    }
-                    window.setTimeout(function () {
-                        label.textContent = original;
-                    }, 2400);
-                });
+        Array.prototype.forEach.call(buttons, function (button) {
+            button.addEventListener('click', function () {
+                var label = button.querySelector('[data-copy-label]') || button;
+                var original = label.textContent;
+                copyText(source.textContent.trim())
+                    .then(function () {
+                        label.textContent = t('copied', 'Copied');
+                        if (status) {
+                            status.textContent = t('copy_success_announcement', 'Package source URL copied to the clipboard.');
+                        }
+                        window.setTimeout(function () {
+                            label.textContent = original;
+                        }, 1600);
+                    })
+                    .catch(function () {
+                        label.textContent = t('copy_manual', 'Copy manually');
+                        if (status) {
+                            status.textContent = t('copy_failure_announcement', 'Automatic copying failed. Copy the package source URL manually.');
+                        }
+                        window.setTimeout(function () {
+                            label.textContent = original;
+                        }, 2400);
+                    });
+            });
         });
+    }
+
+    function setupFooterStage() {
+        var footer = document.querySelector('[data-dcf]');
+        if (!footer) {
+            return;
+        }
+        if (typeof IntersectionObserver === 'undefined') {
+            footer.classList.add('is-play');
+            return;
+        }
+        var observer = new IntersectionObserver(function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting && entries[i].intersectionRatio > 0.1) {
+                    footer.classList.add('is-play');
+                    observer.disconnect();
+                }
+            }
+        }, { threshold: [0, 0.1] });
+        observer.observe(footer);
     }
 
     function setupBackToTop() {
@@ -595,6 +617,7 @@
         setupLanguageMenu();
         setupDetails();
         setupCopyButton();
+    setupFooterStage();
         setupBackToTop();
         setupAdvertisementCarousel();
         setupPaletteSwitcher();

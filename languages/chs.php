@@ -76,6 +76,7 @@ return json_decode(<<<'JSON'
         "request_failed": "更新请求失败。",
         "resume_message": "进度已保存，再次开始更新即可继续。",
         "footer_based_on": "开源 DSM 7 套件仓库",
+        "footer_tagline": "手绘风格的套件仓库：自己编译的 SPK，也能像官方来源一样管理和升级。",
         "catalog_title": "{arch} 可用套件",
         "catalog_summary_models": "适用于 {model_preview} 等 {model_count} 款 Synology NAS 型号；收录 {package_count} 个兼容 {arch} 架构的 DSM 7 套件。",
         "catalog_summary_arch": "收录 {package_count} 个兼容 {arch} 架构的 DSM 7 套件。",

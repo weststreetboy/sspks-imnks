@@ -3654,3 +3654,496 @@ body {
         opacity: .14;
     }
 }
+/* ============================================================
+   页脚层：手绘速写本风（Doodle Crew Footer 的静态移植）
+   ============================================================ */
+
+.dcf {
+    position: relative;
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 26px auto 14px;
+    padding: 30px clamp(18px, 2.4vw, 34px) 0;
+    color: var(--ink);
+    background:
+        radial-gradient(120% 90% at 12% 0%, color-mix(in srgb, #ffffff 42%, transparent), transparent 62%),
+        color-mix(in srgb, var(--surface) 46%, transparent);
+    border-radius: var(--ui-radius-xl);
+    box-shadow:
+        inset 0 1px 0 var(--ui-sheen),
+        inset 0 0 0 1px var(--ui-line-soft),
+        0 26px 60px -40px var(--ui-shadow);
+    backdrop-filter: blur(calc(var(--glass-blur) * .8)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * .8)) saturate(var(--glass-saturation));
+    overflow: hidden;
+}
+
+.dcf__defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.dcf__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ---- 顶部：品牌 + 链接列 ---- */
+.dcf__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(20px, 4vw, 64px);
+    padding-bottom: 26px;
+}
+
+.dcf__brand {
+    max-width: 340px;
+    min-width: 0;
+}
+
+.dcf__brand-name {
+    display: inline-block;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    text-decoration: none;
+}
+
+.dcf__brand-name:hover {
+    color: var(--ui-accent);
+}
+
+.dcf__blurb {
+    margin: 9px 0 0;
+    color: var(--ui-muted-2);
+    font-size: 11.5px;
+    line-height: 1.6;
+}
+
+.dcf__columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: clamp(22px, 3.4vw, 52px);
+}
+
+.dcf__column {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 96px;
+}
+
+.dcf__column h2 {
+    margin: 0 0 2px;
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    border: 0;
+    text-decoration: none;
+}
+
+.dcf__column a {
+    position: relative;
+    width: fit-content;
+    color: var(--ui-muted-2);
+    font-size: 11.5px;
+    text-decoration: none;
+    transition: color .16s ease;
+}
+
+.dcf__column a span {
+    position: relative;
+}
+
+.dcf__column a span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .22s ease;
+}
+
+.dcf__column a:hover {
+    color: var(--ink);
+}
+
+.dcf__column a:hover span::after {
+    transform: scaleX(1);
+}
+
+/* ---- 巨型墨字 ---- */
+.dcf__stage {
+    position: relative;
+    padding: clamp(10px, 1.6vw, 20px) 0 0;
+}
+
+.dcf__word {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    margin: 0;
+    color: var(--ink);
+    font-family: "Arial Black", "Helvetica Neue", Helvetica, Arial, var(--font-sans);
+    font-size: clamp(40px, 8.6vw, 124px);
+    font-weight: 900;
+    letter-spacing: -.045em;
+    line-height: .92;
+    text-transform: uppercase;
+    filter: url(#dcf-rough);
+    user-select: none;
+    /* 右侧留出小蘑菇站立的位置 */
+    padding-right: calc(clamp(38px, 4.2vw, 58px) + clamp(2px, 1vw, 16px) + 12px);
+}
+
+.dcf__letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(14px) rotate(-1.4deg);
+    transition: opacity .5s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+
+.dcf__letter--space {
+    width: clamp(10px, 1.6vw, 22px);
+}
+
+/* 进场：逐字盖印 */
+.dcf.is-play .dcf__letter {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+.dcf.is-play .dcf__letter:nth-child(1) { transition-delay: .06s; }
+.dcf.is-play .dcf__letter:nth-child(2) { transition-delay: .12s; }
+.dcf.is-play .dcf__letter:nth-child(3) { transition-delay: .18s; }
+.dcf.is-play .dcf__letter:nth-child(4) { transition-delay: .24s; }
+.dcf.is-play .dcf__letter:nth-child(5) { transition-delay: .3s; }
+.dcf.is-play .dcf__letter:nth-child(6) { transition-delay: .36s; }
+.dcf.is-play .dcf__letter:nth-child(7) { transition-delay: .42s; }
+.dcf.is-play .dcf__letter:nth-child(8) { transition-delay: .48s; }
+.dcf.is-play .dcf__letter:nth-child(9) { transition-delay: .54s; }
+.dcf.is-play .dcf__letter:nth-child(10) { transition-delay: .6s; }
+.dcf.is-play .dcf__letter:nth-child(11) { transition-delay: .66s; }
+.dcf.is-play .dcf__letter:nth-child(12) { transition-delay: .72s; }
+
+/* 悬停时单个字母歪一下 */
+.dcf__word:hover .dcf__letter {
+    transition-duration: .28s;
+}
+
+.dcf__letter:hover {
+    transform: translateY(-6px) rotate(3deg) !important;
+    color: var(--ui-accent);
+}
+
+/* 站在字上的小蘑菇 */
+.dcf__crew {
+    position: absolute;
+    right: clamp(2px, 1vw, 16px);
+    bottom: 5px;
+    width: clamp(38px, 4.2vw, 58px);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(16px) scale(.9);
+    transition: opacity .4s ease .8s, transform .5s cubic-bezier(.22, 1, .36, 1) .8s;
+    pointer-events: none;
+}
+
+.dcf.is-play .dcf__crew {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.dcf__crew svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+/* 地面手绘线 */
+.dcf__ground {
+    display: block;
+    width: 100%;
+    height: clamp(7px, .7vw, 11px);
+    margin-top: 6px;
+}
+
+.dcf__ground path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    opacity: .5;
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    transition: stroke-dashoffset 1.1s ease .1s;
+}
+
+.dcf.is-play .dcf__ground path {
+    stroke-dashoffset: 0;
+}
+
+/* 漂在字周围的涂鸦 */
+.dcf__doodle {
+    position: absolute;
+    width: clamp(20px, 2.2vw, 30px);
+    opacity: .0;
+    transition: opacity .5s ease .9s;
+    pointer-events: none;
+}
+
+.dcf.is-play .dcf__doodle {
+    opacity: .85;
+}
+
+.dcf__doodle svg {
+    width: 100%;
+    height: auto;
+}
+
+.dcf__doodle--1 {
+    left: 1%;
+    bottom: 6%;
+    animation: dcf-drift 9s ease-in-out infinite;
+}
+
+.dcf__doodle--2 {
+    left: 20%;
+    top: 2%;
+    width: clamp(16px, 1.8vw, 24px);
+    animation: dcf-drift 11s ease-in-out infinite reverse;
+}
+
+.dcf__doodle--3 {
+    right: 16%;
+    top: 2%;
+    animation: dcf-drift 13s ease-in-out infinite;
+}
+
+.dcf__doodle--4 {
+    right: 2.4%;
+    bottom: 58%;
+    width: clamp(17px, 1.9vw, 26px);
+    animation: dcf-drift 10s ease-in-out infinite reverse;
+}
+
+@keyframes dcf-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(6px, -9px) rotate(9deg); }
+    66% { transform: translate(-5px, 6px) rotate(-7deg); }
+}
+
+/* ---- 一行口号 + 两个胶囊按钮 ---- */
+.dcf__tagline {
+    margin: 16px 0 0;
+    color: var(--ui-muted-2);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.dcf__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.dcf__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .18s ease, background-color .18s ease, color .18s ease;
+}
+
+.dcf__action svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    fill: none;
+}
+
+.dcf__action:hover {
+    transform: translateY(-2px);
+}
+
+.dcf__action--outline {
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 30%, transparent);
+    box-shadow: inset 0 0 0 1px var(--ui-line);
+}
+
+.dcf__action--outline:hover {
+    background: color-mix(in srgb, var(--surface) 46%, transparent);
+}
+
+.dcf__action--solid {
+    color: var(--ui-accent-ink);
+    background: var(--ui-accent);
+    box-shadow: 0 8px 18px -12px color-mix(in srgb, var(--ui-accent) 70%, transparent);
+}
+
+/* ---- 底部一行 ---- */
+.dcf__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 22px calc(-1 * clamp(18px, 2.4vw, 34px)) 0;
+    padding: 13px clamp(18px, 2.4vw, 34px) 15px;
+    border-top: 1px solid var(--ui-line-soft);
+}
+
+.dcf__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    color: var(--ui-muted-2);
+    font-size: 10.5px;
+}
+
+.dcf__meta a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.dcf__meta a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ui-line);
+}
+
+.dcf__repo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dcf__repo svg {
+    width: 13px;
+    height: 13px;
+    opacity: .7;
+}
+
+@media (max-width: 900px) {
+    .dcf__top {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .dcf__columns {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .dcf__brand {
+        max-width: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .dcf {
+        padding: 22px 16px 0;
+        margin-top: 18px;
+    }
+
+    .dcf__word {
+        font-size: clamp(30px, 10.4vw, 46px);
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .dcf__crew {
+        right: 4%;
+        width: 40px;
+    }
+
+    .dcf__bottom {
+        margin-left: -16px;
+        margin-right: -16px;
+        padding: 12px 16px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dcf__letter,
+    .dcf__crew,
+    .dcf__doodle,
+    .dcf__ground path {
+        transition: none !important;
+    }
+
+    .dcf.is-play .dcf__letter {
+        opacity: 1;
+        transform: none;
+    }
+
+    .dcf__doodle {
+        animation: none !important;
+        opacity: .85;
+    }
+}
+
+
+/* 手绘小蘑菇（站在墨字上的角色） */
+.dcf__crew .dcf-ink {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: .75;
+}
+
+.dcf__crew .dcf-paper {
+    fill: color-mix(in srgb, var(--surface) 76%, transparent);
+    stroke: var(--ink);
+    stroke-width: 2;
+    opacity: .95;
+}
+
+.dcf__crew .dcf-cap {
+    fill: #ff4d4d;
+    stroke: var(--ink);
+    stroke-width: 2;
+}
+
+.dcf__crew .dcf-spot {
+    fill: #fff1d6;
+    opacity: .92;
+}
+
+.dcf__crew .dcf-eye {
+    fill: var(--ink);
+}

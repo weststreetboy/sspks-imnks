@@ -76,6 +76,7 @@ return json_decode(<<<'JSON'
         "request_failed": "The update request failed.",
         "resume_message": "Progress is saved. Start the update again to resume.",
         "footer_based_on": "Open-source DSM 7 package repository",
+        "footer_tagline": "A hand-drawn package shelf: your own SPK builds, managed and upgraded like an official source.",
         "catalog_title": "{arch} available packages",
         "catalog_summary_models": "Includes {package_count} DSM 7 packages for {arch}; compatible models include {model_preview} ({model_count} Synology NAS models in total).",
         "catalog_summary_arch": "Includes {package_count} DSM 7 packages for {arch}.",
