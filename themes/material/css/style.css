@@ -3789,10 +3789,12 @@ body {
 /* ---- 巨型墨字 ---- */
 .dcf__stage {
     position: relative;
-    padding: clamp(10px, 1.6vw, 20px) 0 0;
+    /* 上方留出「天空」，让角色和涂鸦浮在字顶上 */
+    padding: clamp(40px, 5vw, 68px) 0 0;
 }
 
 .dcf__word {
+    position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -3815,8 +3817,33 @@ body {
 .dcf__letter {
     display: inline-block;
     opacity: 0;
-    transform: translateY(14px) rotate(-1.4deg);
+    /* 干笔刷质感：竖向细纹理只出现在字里 */
+    background-image: repeating-linear-gradient(96deg,
+        var(--ink) 0 2px,
+        color-mix(in srgb, var(--ink) 74%, transparent) 2px 3px,
+        var(--ink) 3px 6px,
+        color-mix(in srgb, var(--ink) 86%, transparent) 6px 7px);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateY(calc(14px + var(--dcf-ly, 0px))) rotate(-1.4deg);
     transition: opacity .5s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* 每个字落下来时的高度/角度都略有差别，像手工盖印 */
+.dcf__letter:nth-child(2n) {
+    --dcf-ly: -2px;
+    --dcf-lr: .9deg;
+}
+
+.dcf__letter:nth-child(3n) {
+    --dcf-ly: 3px;
+    --dcf-lr: -.7deg;
+}
+
+.dcf__letter:nth-child(5n) {
+    --dcf-ly: 1.5px;
+    --dcf-lr: 1.3deg;
 }
 
 .dcf__letter--space {
@@ -3826,7 +3853,7 @@ body {
 /* 进场：逐字盖印 */
 .dcf.is-play .dcf__letter {
     opacity: 1;
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(var(--dcf-ly, 0px)) rotate(var(--dcf-lr, 0deg));
 }
 
 .dcf.is-play .dcf__letter:nth-child(1) { transition-delay: .06s; }
@@ -3849,18 +3876,14 @@ body {
 
 .dcf__letter:hover {
     transform: translateY(-6px) rotate(3deg) !important;
-    color: var(--ui-accent);
 }
 
-/* 站在字上的小蘑菇 */
+/* 字上的一小队手绘角色 */
 .dcf__crew {
     position: absolute;
-    right: clamp(2px, 1vw, 16px);
-    bottom: 5px;
-    width: clamp(38px, 4.2vw, 58px);
     margin: 0;
     opacity: 0;
-    transform: translateY(16px) scale(.9);
+    transform: translateY(14px) scale(.92);
     transition: opacity .4s ease .8s, transform .5s cubic-bezier(.22, 1, .36, 1) .8s;
     pointer-events: none;
 }
@@ -3874,6 +3897,46 @@ body {
     width: 100%;
     height: auto;
     overflow: visible;
+}
+
+/* 左端坐着一只背小包的猫 */
+.dcf__crew--cat {
+    left: -2%;
+    bottom: -1%;
+    width: clamp(46px, 5vw, 74px);
+    transition-delay: .82s;
+}
+
+/* 戴尖帽的小鸟站在字母顶上 */
+.dcf__crew--bird {
+    left: 26%;
+    bottom: calc(80% - 2px);
+    width: clamp(26px, 3.1vw, 44px);
+    transition-delay: .94s;
+}
+
+/* 戴宽檐帽的小孩 */
+.dcf__crew--kid {
+    left: 49%;
+    bottom: calc(80% - 2px);
+    width: clamp(32px, 3.8vw, 56px);
+    transition-delay: 1.06s;
+}
+
+/* 大眼小幽灵 */
+.dcf__crew--ghost {
+    left: 73%;
+    bottom: calc(80% - 2px);
+    width: clamp(26px, 3.1vw, 46px);
+    transition-delay: 1.18s;
+}
+
+/* 站在右侧地面上的蘑菇 */
+.dcf__crew--shroom {
+    right: 1%;
+    bottom: 0;
+    width: clamp(30px, 3.4vw, 50px);
+    transition-delay: 1.3s;
 }
 
 /* 地面手绘线 */
@@ -3918,29 +3981,57 @@ body {
 }
 
 .dcf__doodle--1 {
-    left: 1%;
-    bottom: 6%;
+    left: 3%;
+    top: 12%;
     animation: dcf-drift 9s ease-in-out infinite;
 }
 
 .dcf__doodle--2 {
-    left: 20%;
-    top: 2%;
+    left: 14%;
+    top: 0;
     width: clamp(16px, 1.8vw, 24px);
     animation: dcf-drift 11s ease-in-out infinite reverse;
 }
 
 .dcf__doodle--3 {
-    right: 16%;
-    top: 2%;
+    right: 9%;
+    top: 4%;
     animation: dcf-drift 13s ease-in-out infinite;
 }
 
 .dcf__doodle--4 {
     right: 2.4%;
-    bottom: 58%;
+    bottom: 56%;
     width: clamp(17px, 1.9vw, 26px);
     animation: dcf-drift 10s ease-in-out infinite reverse;
+}
+
+.dcf__doodle--5 {
+    left: 38%;
+    top: 2%;
+    animation: dcf-drift 12s ease-in-out infinite;
+}
+
+.dcf__doodle--6 {
+    right: 26%;
+    bottom: 6%;
+    width: clamp(15px, 1.7vw, 22px);
+    animation: dcf-drift 8s ease-in-out infinite reverse;
+}
+
+/* 地面上散落的小石子/气泡 */
+.dcf__pebbles {
+    display: block;
+    width: 100%;
+    height: clamp(10px, 1.1vw, 16px);
+    margin-top: -2px;
+}
+
+.dcf__pebbles ellipse {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    opacity: .28;
 }
 
 @keyframes dcf-drift {
@@ -3951,11 +4042,14 @@ body {
 
 /* ---- 一行口号 + 两个胶囊按钮 ---- */
 .dcf__tagline {
-    margin: 16px 0 0;
-    color: var(--ui-muted-2);
-    font-size: 12px;
-    line-height: 1.6;
+    margin: 18px 0 0;
+    color: var(--ink);
+    font-family: "KaiTi", "STKaiti", "Kaiti SC", "Segoe Script", "Bradley Hand", cursive, var(--font-sans);
+    font-size: clamp(14px, 1.35vw, 18px);
+    line-height: 1.7;
+    letter-spacing: .02em;
     text-align: center;
+    opacity: .78;
 }
 
 .dcf__actions {
@@ -4078,15 +4172,17 @@ body {
     }
 
     .dcf__word {
-        font-size: clamp(30px, 10.4vw, 46px);
-        flex-wrap: wrap;
+        font-size: clamp(24px, 8.4vw, 40px);
+        flex-wrap: nowrap;
         justify-content: flex-start;
+        padding-left: 36px;
     }
 
-    .dcf__crew {
-        right: 4%;
-        width: 40px;
-    }
+    .dcf__crew--cat { left: 0; width: 32px; }
+    .dcf__crew--bird { width: 20px; }
+    .dcf__crew--kid { width: 24px; }
+    .dcf__crew--ghost { width: 20px; }
+    .dcf__crew--shroom { width: 24px; }
 
     .dcf__bottom {
         margin-left: -16px;
@@ -4146,4 +4242,48 @@ body {
 
 .dcf__crew .dcf-eye {
     fill: var(--ink);
+}
+
+/* ---- 品牌小徽标 + 手绘角色配色 ---- */
+.dcf__brand-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+}
+
+.dcf__badge {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.dcf__badge svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.dcf__badge .dcf-ink {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.9;
+    stroke-linecap: round;
+}
+
+.dcf__badge .dcf-eye {
+    fill: var(--ink);
+}
+
+.dcf__crew .dcf-hat {
+    fill: #ffd23f;
+    stroke: var(--ink);
+    stroke-width: 2.4;
+}
+
+.dcf__crew .dcf-sun {
+    fill: #ff7a1a;
+    stroke: var(--ink);
+    stroke-width: 1.6;
 }
