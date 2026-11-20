@@ -1505,13 +1505,17 @@ html.keyboardNavigation .update-form input:focus {
 }
 
 .spk-compatibility {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 4px;
     margin: 14px 20px 0;
-    padding: 8px 11px;
+    padding: 4px 10px;
     color: var(--brand-700);
-    background: var(--brand-100);
-    border: 1px solid color-mix(in srgb, var(--brand-600) 24%, transparent);
-    border-radius: 9px;
-    font-size: 0.86rem;
+    background: color-mix(in srgb, var(--brand-600) 13%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand-600) 20%, transparent);
+    border-radius: 999px;
+    font-size: 0.82rem;
 }
 
 .spk-details:not(.spk-details-hidden) {
@@ -2065,32 +2069,38 @@ html[data-palette='aurora'] {
 
 :root {
     --glass-blur: 22px;
-    --glass-saturation: 1.2;
-    --glass-opacity: .55;
+    --glass-saturation: 1.35;
+    --glass-opacity: .32;
     --glass-edge: .6;
     --glass-tint: #ffffff;
-    --glass-surface: var(--surface);
-    --glass-shadow: color-mix(in srgb, var(--brand-950) 24%, transparent);
+    --glass-surface: color-mix(in srgb, var(--brand-600) 12%, var(--surface));
+    --glass-shadow: color-mix(in srgb, var(--brand-950) 26%, transparent);
     --glass-bg: color-mix(in srgb, var(--glass-surface) calc(var(--glass-opacity) * 100%), transparent);
     --glass-line: color-mix(in srgb, var(--glass-tint) calc(var(--glass-edge) * 34%), transparent);
     --glass-sheen: color-mix(in srgb, var(--glass-tint) calc(var(--glass-edge) * 100%), transparent);
+    --glass-gloss: linear-gradient(135deg, color-mix(in srgb, var(--glass-tint) 24%, transparent) 0%, transparent 48%);
 }
 
 html[data-palette='dark'] {
-    --glass-opacity: .42;
+    --glass-opacity: .34;
     --glass-tint: #ffffff;
     --glass-shadow: rgba(0, 0, 0, .62);
 }
 
 html[data-palette='aurora'] {
-    --glass-opacity: .40;
+    --glass-opacity: .28;
     --glass-tint: #cfc9ff;
     --glass-shadow: rgba(0, 0, 0, .66);
 }
 
-/* 背景：三团柔光叠在页面底色上，玻璃面板才有东西可以"透" */
-body {
+/* 背景：柔光交给 body::before，页面底色上移到 html，
+   否则 body 自身底色会把负 z-index 的柔光整个盖住（玻璃就无"物"可透） */
+html {
     background: var(--page);
+}
+
+body {
+    background: transparent;
 }
 
 body::before {
@@ -2100,10 +2110,15 @@ body::before {
     z-index: -1;
     pointer-events: none;
     background:
-        radial-gradient(58% 46% at 10% 2%, color-mix(in srgb, var(--brand-600) 34%, transparent) 0%, transparent 68%),
-        radial-gradient(44% 40% at 92% 8%, rgba(139, 92, 246, .32) 0%, transparent 70%),
-        radial-gradient(66% 54% at 50% 104%, color-mix(in srgb, var(--brand-700) 28%, transparent) 0%, transparent 74%),
-        var(--page);
+        radial-gradient(54% 44% at 6% -8%, color-mix(in srgb, var(--brand-600) 48%, transparent) 0%, transparent 66%),
+        radial-gradient(46% 40% at 98% 0%, rgba(139, 92, 246, 0.46) 0%, transparent 70%),
+        radial-gradient(38% 30% at 72% 46%, color-mix(in srgb, var(--brand-600) 26%, transparent) 0%, transparent 72%),
+        radial-gradient(40% 34% at 16% 62%, rgba(139, 92, 246, 0.22) 0%, transparent 72%),
+        radial-gradient(64% 54% at 44% 108%, color-mix(in srgb, var(--brand-700) 36%, transparent) 0%, transparent 74%),
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--brand-100) 40%, var(--page)) 0%,
+            var(--page) 38%,
+            color-mix(in srgb, var(--brand-100) 26%, var(--page)) 100%);
 }
 
 .mdl-layout,
@@ -2123,13 +2138,49 @@ body::before {
 .update-panel,
 .site-footer {
     position: relative;
-    background: var(--glass-bg);
+    background: var(--glass-gloss), var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
     box-shadow:
         inset 0 1px 0 var(--glass-sheen),
         inset 0 0 0 1px var(--glass-line),
         0 20px 52px -25px var(--glass-shadow);
+}
+
+/* 霜面颗粒：极淡噪点层，让面板读起来是"磨砂玻璃"而不是半透明色块 */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: .5;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/* 卡片左上角的一抹高光，模拟光线打在斜面上 */
+.spk-card::before,
+.small-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 64%;
+    height: 52%;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(120% 120% at 0% 0%,
+        color-mix(in srgb, var(--glass-tint) 32%, transparent) 0%,
+        transparent 68%);
+}
+
+.spk-card > *,
+.small-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* 顶部导航：叠一层品牌色玻璃 */
@@ -2165,7 +2216,7 @@ body::before {
 .spk-card:hover,
 .small-card:hover {
     transform: translateY(-4px);
-    background: color-mix(in srgb, var(--glass-surface) calc((var(--glass-opacity) + .10) * 100%), transparent);
+    background: var(--glass-gloss), color-mix(in srgb, var(--glass-surface) calc((var(--glass-opacity) + .10) * 100%), transparent);
     box-shadow:
         inset 0 1px 0 var(--glass-sheen),
         inset 0 0 0 1px color-mix(in srgb, var(--brand-600) 45%, var(--glass-line)),
@@ -2237,4 +2288,29 @@ body::before {
         -webkit-backdrop-filter: none;
     }
     body::before { display: none; }
+}
+
+/* ==========================================================================
+   12 列栅格的断点变体
+   模板里写的是 mdl-cell--4-col-desktop / --6-col-tablet / --12-col-phone /
+   --3-col-phone，但样式表只定义了 --2-col 与 --6-col，其余变体没有跨列
+   规则，卡片会被挤成 1/12 宽（文字逐字换行）。此处补齐。
+   ========================================================================== */
+
+.mdl-cell--4-col-desktop {
+    grid-column: span 4;
+}
+
+@media (max-width: 839px) {
+    .mdl-cell--4-col-desktop,
+    .mdl-cell--6-col-tablet {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 680px) {
+    .mdl-cell--12-col-phone,
+    .mdl-cell--3-col-phone {
+        grid-column: span 1;
+    }
 }
