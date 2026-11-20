@@ -11,4 +11,8 @@ mkdir -p "$APP/cache" "$APP/runtime" "$APP/packages"
 chown -R www-data:www-data "$APP/cache" "$APP/runtime" 2>/dev/null || true
 chmod -R u+rwX,g+rwX "$APP/cache" "$APP/runtime" 2>/dev/null || true
 
+# 套件目录要让 php 进程能写入（上传套件功能），只改目录本身，不动已有 SPK 的属主
+chown www-data:www-data "$APP/packages" 2>/dev/null || true
+chmod u+rwX,g+rwX "$APP/packages" 2>/dev/null || true
+
 exec "$@"

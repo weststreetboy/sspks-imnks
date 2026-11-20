@@ -1,0 +1,33 @@
+{{> html_head }}
+<section class="update-panel mdl-card" data-upload-panel data-endpoint="{{ uploadEndpoint }}" data-index-url="{{ updatePageUrl }}">
+    <div class="update-panel__header">
+        <span class="eyebrow">PACKAGE UPLOAD</span>
+        <h1>{{ upload_title }}</h1>
+        <p>{{ upload_intro }}</p>
+    </div>
+
+    <form class="update-form" data-upload-form enctype="multipart/form-data">
+        <label for="upload-token">{{ admin_password }}</label>
+        <div class="update-form__controls">
+            <input id="upload-token" name="token" type="password" required autocomplete="off" spellcheck="false" placeholder="{{ password_placeholder }}" data-upload-token>
+        </div>
+        <label for="upload-file">{{ upload_pick }}</label>
+        <div class="update-form__controls">
+            <input id="upload-file" name="spk" type="file" accept=".spk" required data-upload-file>
+            <button class="mdl-button mdl-button--raised mdl-button--colored" type="submit" data-upload-button>{{ upload_submit }}</button>
+        </div>
+        <p class="update-hint">{{ uploadHint }}</p>
+    </form>
+
+    <div class="update-progress">
+        <div class="update-progress__meta">
+            <span role="status" aria-live="polite" aria-atomic="true" data-upload-status>{{ waiting }}</span>
+            <output data-upload-percent>0%</output>
+        </div>
+        <progress max="100" value="0" aria-label="{{ upload_submit }}" data-upload-progress>0%</progress>
+        <p class="update-hint" data-upload-next hidden></p>
+        <p><a class="mdl-button" href="{{ updatePageUrl }}" data-upload-index-link hidden>{{ upload_go_index }}</a></p>
+    </div>
+</section>
+<script src="{{ themeUrl }}js/upload.js?v={{ uploadVersion }}" defer></script>
+{{> html_tail }}

@@ -17,6 +17,7 @@ COPY . /var/www/sspks-imnks
 
 # 容器化配置
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/php-uploads.ini /usr/local/etc/php/conf.d/zz-uploads.ini
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 

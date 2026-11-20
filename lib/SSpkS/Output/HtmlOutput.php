@@ -94,6 +94,7 @@ final class HtmlOutput
         $this->setVariable('updatePageUrl', $updateAction === ''
             ? ''
             : $this->config->baseUrlRelative . '?action=' . rawurlencode($updateAction));
+        $this->setVariable('uploadPageUrl', $this->config->baseUrlRelative . '?action=upload');
         $structuredData = '';
         if ($_GET === []) {
             $encodedStructuredData = json_encode([
@@ -138,6 +139,7 @@ final class HtmlOutput
         $this->setVariable('styleVersion', $mtime($themePath . '/css/style.css'));
         $this->setVariable('scriptVersion', $mtime($themePath . '/js/script.js'));
         $this->setVariable('updateVersion', $mtime($themePath . '/js/update.js'));
+        $this->setVariable('uploadVersion', $mtime($themePath . '/js/upload.js'));
         $this->setVariable('socialImageUrl', $this->config->baseUrl . 'logo.png');
         $this->setVariable('commitHash', $this->config->SSPKS_COMMIT);
         $this->setVariable('branch', $this->config->SSPKS_BRANCH);

@@ -11,6 +11,7 @@ use SSpkS\Handler\NotFoundHandler;
 use SSpkS\Handler\SitemapHandler;
 use SSpkS\Handler\SynologyHandler;
 use SSpkS\Handler\UpdateHandler;
+use SSpkS\Handler\UploadHandler;
 
 final class Handler
 {
@@ -18,6 +19,7 @@ final class Handler
         SitemapHandler::class,
         BrowserDownloadHandler::class,
         SynologyHandler::class,
+        UploadHandler::class,
         UpdateHandler::class,
         BrowserRedirectHandler::class,
         BrowserPackageListHandler::class,

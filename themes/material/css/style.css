@@ -1037,6 +1037,18 @@ html.keyboardNavigation .language-select__menu a:focus {
     min-width: 0;
 }
 
+.update-hint {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: .86rem;
+    line-height: 1.6;
+}
+
+.update-form + .update-form,
+.update-form__controls + label {
+    margin-top: 18px;
+}
+
 .mdl-button--raised.mdl-button--colored,
 .mdl-button--raised.mdl-button--colored:hover {
     color: #fff;
