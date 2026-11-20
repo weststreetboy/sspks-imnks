@@ -13,6 +13,13 @@ use SSpkS\Handler\SynologyHandler;
 use SSpkS\Handler\UpdateHandler;
 use SSpkS\Handler\UploadHandler;
 
+// The committed vendor/ autoloader runs in classmap-authoritative mode, so a class
+// added after the last composer dump-autoload (like this upload handler) would raise
+// a fatal "class not found" on every request. Load it explicitly instead.
+if (!class_exists(UploadHandler::class, false)) {
+    require_once __DIR__ . '/Handler/UploadHandler.php';
+}
+
 final class Handler
 {
     private const HANDLERS = [
