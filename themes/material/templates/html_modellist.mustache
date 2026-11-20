@@ -36,6 +36,36 @@
     <span class="visually-hidden" aria-live="polite" aria-atomic="true" data-copy-status></span>
 </section>
 
+<section class="steps-panel" aria-labelledby="steps-panel-title">
+    <header class="steps-panel__head">
+        <h2 id="steps-panel-title">{{ steps_title }}</h2>
+        <span>{{ steps_done }}</span>
+    </header>
+    <ol class="steps-panel__list">
+        <li>
+            <span class="steps-panel__index">1</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_one_title }}</p>
+                <p class="steps-panel__desc">{{ step_one_desc }}</p>
+            </div>
+        </li>
+        <li>
+            <span class="steps-panel__index">2</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_two_title }}</p>
+                <p class="steps-panel__desc">{{ step_two_desc }}</p>
+            </div>
+        </li>
+        <li>
+            <span class="steps-panel__index">3</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_three_title }}</p>
+                <p class="steps-panel__desc">{{ step_three_desc }}</p>
+            </div>
+        </li>
+    </ol>
+</section>
+
 <section class="stat-grid" aria-label="{{ overview_title }}">
     <article class="stat-card">
         <div class="stat-card__head">
@@ -112,36 +142,6 @@
         </div>
         <p class="stat-card__foot"><span>{{ detail_label }} <b>{{ overviewMaxLabel }}</b></span></p>
     </article>
-</section>
-
-<section class="steps-panel" aria-labelledby="steps-panel-title">
-    <header class="steps-panel__head">
-        <h2 id="steps-panel-title">{{ steps_title }}</h2>
-        <span>{{ steps_done }}</span>
-    </header>
-    <ol class="steps-panel__list">
-        <li>
-            <span class="steps-panel__index">1</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_one_title }}</p>
-                <p class="steps-panel__desc">{{ step_one_desc }}</p>
-            </div>
-        </li>
-        <li>
-            <span class="steps-panel__index">2</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_two_title }}</p>
-                <p class="steps-panel__desc">{{ step_two_desc }}</p>
-            </div>
-        </li>
-        <li>
-            <span class="steps-panel__index">3</span>
-            <div class="steps-panel__body">
-                <p class="steps-panel__title">{{ step_three_title }}</p>
-                <p class="steps-panel__desc">{{ step_three_desc }}</p>
-            </div>
-        </li>
-    </ol>
 </section>
 
 <section class="model-block" aria-labelledby="model-block-title">
