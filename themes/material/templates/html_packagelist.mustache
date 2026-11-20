@@ -17,7 +17,7 @@
 {{/ packagelist }}
 <div class="mdl-grid package-grid" data-progressive-grid>
 {{# packagelist }}
-    <article class="mdl-cell mdl-cell--6-col mdl-card spk-card{{# beta }} spk-beta{{/ beta }}{{# official }} spk-official{{/ official }}" hidden data-progressive-card>
+    <article class="mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-card spk-card{{# beta }} spk-beta{{/ beta }}{{# official }} spk-official{{/ official }}" hidden data-progressive-card>
         <div class="spk-card__header">
             <div class="spk-icon">
                 <img src="{{ thumbnail_url.0 }}" alt="{{ displayname }}" width="72" height="72" loading="lazy" decoding="async">
@@ -39,6 +39,12 @@
 {{/ hasRuntimeBadges }}
         </div>
         <div class="spk-compatibility">{{ cardMinimumDsm }} <strong>{{ os_min_ver }}</strong></div>
+        <div class="spk-meta">
+{{# arch }}
+            <span class="spk-meta__chip">{{ . }}</span>
+{{/ arch }}
+            <span class="spk-meta__chip spk-meta__chip--muted">SPK · {{ fileSizeLabel }}</span>
+        </div>
         <div class="mdl-card__supporting-text spk-description">{{ description }}</div>
         <div class="mdl-card__supporting-text spk-details spk-details-hidden" id="package-details-{{ package }}" aria-hidden="true" inert>
             <dl>

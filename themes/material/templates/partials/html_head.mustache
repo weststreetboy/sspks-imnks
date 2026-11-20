@@ -29,7 +29,7 @@
 {{/ websiteStructuredData }}
         <script>
             (function () {
-                var allowed = ['teal', 'ocean', 'violet', 'dark'];
+                var allowed = ['teal', 'ocean', 'violet', 'dark', 'aurora'];
                 var saved = '';
                 try {
                     saved = localStorage.getItem('sspks-palette') || '';
@@ -62,6 +62,7 @@
                             <button type="button" class="palette-swatch palette-swatch--ocean" data-palette="ocean" aria-label="{{ theme_ocean }}"></button>
                             <button type="button" class="palette-swatch palette-swatch--violet" data-palette="violet" aria-label="{{ theme_violet }}"></button>
                             <button type="button" class="palette-swatch palette-swatch--dark" data-palette="dark" aria-label="{{ theme_dark }}"></button>
+                            <button type="button" class="palette-swatch palette-swatch--aurora" data-palette="aurora" aria-label="Aurora"></button>
                         </div>
 {{# showLanguageSelector }}
                         <div class="language-select" data-language-menu>

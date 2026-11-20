@@ -32,6 +32,8 @@ README 里的方案是「Nginx + PHP-FPM + 手工配路由」。这个镜像是�
 |---|---|---|
 | `SSPKS_BASE_URL` | `site.base_url` | **必须**和 DSM 里填的来源地址一致（含端口、末尾 `/`） |
 | `SSPKS_SITE_NAME` | `site.name` | 站点标题 |
+| `SSPKS_SITE_DESCRIPTION` | `site.description` | SEO / 社交分享描述 |
+| `SSPKS_DEFAULT_PALETTE` | `appearance.default_palette` | 默认配色：`teal` / `ocean` / `violet` / `dark` / `aurora` |
 | `SSPKS_UPDATE_TOKEN` | `management_password` | 索引管理页密码，覆盖 `conf/database.yaml` |
 | `SSPKS_UPDATE_ACTION` | `update.action` | 索引刷新入口 `?action=<值>`，3–128 位 URL 安全字符 |
 | `SSPKS_BROWSER_DOWNLOAD_ENABLED` | `browser_download.enabled` | 网页「下载 SPK」按钮，`true/false` |

@@ -33,6 +33,9 @@ services:
       # 否则索引里的下载链接会指到别的主机
       SSPKS_BASE_URL: "http://ip:13803/"
       SSPKS_SITE_NAME: "xxx 套件源"
+      SSPKS_SITE_DESCRIPTION: "自建 DSM 7 套件源：自己编译的 SPK 也能像官方来源一样管理和升级。"
+      # 默认配色：teal / ocean / violet / dark / aurora（aurora 是深色紫青渐变）
+      SSPKS_DEFAULT_PALETTE: "teal"
       SSPKS_PACKAGES_MAINTAINER: "名称"
       SSPKS_PACKAGES_MAINTAINER_URL: "域名/"
       SSPKS_PACKAGES_DISTRIBUTOR: "数据库名字"

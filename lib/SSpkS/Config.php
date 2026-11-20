@@ -88,7 +88,9 @@ final class Config
 
     private const SITE_ENV = [
         'SSPKS_SITE_NAME' => ['site', 'name'],
+        'SSPKS_SITE_DESCRIPTION' => ['site', 'description'],
         'SSPKS_SITE_THEME' => ['site', 'theme'],
+        'SSPKS_DEFAULT_PALETTE' => ['appearance', 'default_palette'],
         'SSPKS_SITE_REDIRECTINDEX' => ['site', 'redirectindex'],
         'SSPKS_BASE_URL' => ['site', 'base_url'],
         'SSPKS_PACKAGES_FILE_MASK' => ['packages', 'file_mask'],
@@ -243,7 +245,7 @@ final class Config
         }
         $this->config['site']['base_url'] = $baseUrl;
 
-        $palettes = ['teal', 'ocean', 'violet', 'dark'];
+        $palettes = ['teal', 'ocean', 'violet', 'dark', 'aurora'];
         $palette = strtolower(trim((string) $this->config['appearance']['default_palette']));
         $this->config['appearance']['default_palette'] = in_array($palette, $palettes, true) ? $palette : 'teal';
         $this->config['appearance']['show_runtime_badges'] = (bool) $this->config['appearance']['show_runtime_badges'];

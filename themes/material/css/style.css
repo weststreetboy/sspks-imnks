@@ -1933,3 +1933,126 @@ html.keyboardNavigation .update-form input:focus {
     .site-header .mdl-layout__header-row {height:auto;min-height:72px;padding-top:8px;padding-bottom:8px;}
     .site-nav a {white-space:normal;overflow-wrap:anywhere;}
 }
+
+/* ==========================================================================
+   v2 视觉刷新（追加覆盖层，只改观感，不动交互逻辑）
+   1) 新增 aurora 配色（深色 + 紫青渐变）
+   2) 套件卡片：更大圆角、悬停上浮、版本胶囊、元信息 chips
+   3) 网格：桌面 3 列 / 平板 2 列 / 手机 1 列（类名在模板里）
+   ========================================================================== */
+
+html[data-palette='aurora'] {
+    --brand-950: #0a0a18;
+    --brand-900: #12122a;
+    --brand-700: #a79bff;
+    --brand-600: #6d5dfc;
+    --brand-100: #e7e3ff;
+    --page: #0b0b14;
+    --surface: #14141f;
+    --surface-soft: #1b1b29;
+    --surface-raised: rgba(28, 28, 44, .88);
+    --input-bg: #10101a;
+    --ink: #f2f1ff;
+    --muted: #9b97b8;
+    --description: #c3c0d8;
+    --line: #2b2b3f;
+    --header-end: #1b1440;
+    --hero-end: #2a1e55;
+    --page-glow: rgba(109, 93, 252, .16);
+    --action-bg: #6d5dfc;
+    --action-hover: #8b7bff;
+    --action-shadow: rgba(109, 93, 252, .26);
+    --footer-line: rgba(139, 123, 255, .34);
+    --synology-logo: #e9e7ff;
+    --beta-surface: #332a17;
+    --beta-line: #8a6d33;
+    --beta-ink: #ffe9b8;
+}
+
+.palette-swatch--aurora {
+    background: linear-gradient(135deg, #6d5dfc, #22d3ee);
+}
+
+/* --- 套件卡片 --- */
+.spk-card {
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--line) 86%, var(--brand-600));
+    box-shadow: 0 1px 2px rgba(8, 8, 20, .05);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.spk-card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--brand-600) 52%, var(--line));
+    box-shadow: var(--shadow);
+}
+
+.spk-card.is-details-expanded:hover {
+    transform: none;
+    box-shadow: 0 1px 2px rgba(8, 8, 20, .05);
+}
+
+.spk-card__heading .spk-version {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--brand-600) 30%, var(--line));
+    background: color-mix(in srgb, var(--brand-600) 10%, var(--surface));
+    color: var(--brand-700);
+    font-weight: 700;
+    font-size: .78rem;
+    letter-spacing: .01em;
+    white-space: nowrap;
+}
+
+.spk-icon img {
+    border-radius: 12px;
+}
+
+/* --- 元信息 chips --- */
+.spk-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 16px;
+    margin: 2px 0 10px;
+}
+
+.spk-meta__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 9px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--line) 82%, var(--brand-600));
+    background: var(--surface-soft);
+    color: var(--brand-700);
+    font: 700 .72rem/1.5 var(--font-mono);
+    letter-spacing: .02em;
+}
+
+.spk-meta__chip--muted {
+    color: var(--muted);
+    font-weight: 600;
+}
+
+/* --- 机型卡片 --- */
+.model-grid .small-card {
+    border-radius: 14px;
+}
+
+.model-grid .small-card:hover {
+    border-color: color-mix(in srgb, var(--brand-600) 45%, var(--line));
+    box-shadow: var(--shadow);
+}
+
+.model-arch {
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--brand-600) 9%, transparent);
+}
+
+@media (max-width: 599px) {
+    .spk-meta { padding: 0 14px; }
+    .spk-card__heading .spk-version { font-size: .74rem; }
+}
