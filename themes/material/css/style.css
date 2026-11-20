@@ -3808,8 +3808,7 @@ body {
     letter-spacing: -.045em;
     line-height: .92;
     text-transform: uppercase;
-    filter: url(#dcf-rough);
-    user-select: none;
+        user-select: none;
     /* 右侧留出小蘑菇站立的位置 */
     padding-right: calc(clamp(38px, 4.2vw, 58px) + clamp(2px, 1vw, 16px) + 12px);
 }
@@ -3826,6 +3825,7 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: url(#dcf-rough);
     transform: translateY(calc(14px + var(--dcf-ly, 0px))) rotate(-1.4deg);
     transition: opacity .5s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
 }
@@ -3893,49 +3893,50 @@ body {
     transform: translateY(0) scale(1);
 }
 
-.dcf__crew svg {
+.dcf__crew img {
+    display: block;
     width: 100%;
     height: auto;
-    overflow: visible;
+    filter: brightness(1.02) contrast(1.02);
 }
 
-/* 左端坐着一只背小包的猫 */
+/* 左端坐着的绿色长老师尊 */
 .dcf__crew--cat {
     left: -2%;
     bottom: -1%;
-    width: clamp(46px, 5vw, 74px);
+    width: clamp(70px, 7.4vw, 106px);
     transition-delay: .82s;
 }
 
-/* 戴尖帽的小鸟站在字母顶上 */
+/* 白甲士兵站在字母顶上 */
 .dcf__crew--bird {
-    left: 26%;
-    bottom: calc(80% - 2px);
-    width: clamp(26px, 3.1vw, 44px);
+    left: 25%;
+    bottom: calc(80% - 20px);
+    width: clamp(42px, 4.5vw, 60px);
     transition-delay: .94s;
 }
 
-/* 戴宽檐帽的小孩 */
+/* 黑甲武士 */
 .dcf__crew--kid {
     left: 49%;
-    bottom: calc(80% - 2px);
-    width: clamp(32px, 3.8vw, 56px);
+    bottom: calc(80% - 20px);
+    width: clamp(52px, 5.6vw, 80px);
     transition-delay: 1.06s;
 }
 
-/* 大眼小幽灵 */
+/* 球形机器人 */
 .dcf__crew--ghost {
-    left: 73%;
-    bottom: calc(80% - 2px);
-    width: clamp(26px, 3.1vw, 46px);
+    left: 72%;
+    bottom: calc(80% - 34px);
+    width: clamp(52px, 5.4vw, 78px);
     transition-delay: 1.18s;
 }
 
-/* 站在右侧地面上的蘑菇 */
+/* 站在右侧地面上的圆顶机器人 */
 .dcf__crew--shroom {
-    right: 1%;
+    right: 1.5%;
     bottom: 0;
-    width: clamp(30px, 3.4vw, 50px);
+    width: clamp(46px, 4.9vw, 70px);
     transition-delay: 1.3s;
 }
 
@@ -4178,11 +4179,11 @@ body {
         padding-left: 36px;
     }
 
-    .dcf__crew--cat { left: 0; width: 32px; }
-    .dcf__crew--bird { width: 20px; }
-    .dcf__crew--kid { width: 24px; }
-    .dcf__crew--ghost { width: 20px; }
-    .dcf__crew--shroom { width: 24px; }
+    .dcf__crew--cat { left: 0; width: 44px; }
+    .dcf__crew--bird { width: 28px; }
+    .dcf__crew--kid { width: 34px; }
+    .dcf__crew--ghost { width: 34px; }
+    .dcf__crew--shroom { width: 32px; }
 
     .dcf__bottom {
         margin-left: -16px;
@@ -4287,3 +4288,32 @@ body {
     stroke: var(--ink);
     stroke-width: 1.6;
 }
+
+/* ---- 星战小队配色 ---- */
+.dcf__crew .dcf-dark {
+    fill: #22282c;
+    stroke: var(--ink);
+    stroke-width: 1.6;
+}
+
+.dcf__crew 
+.dcf__crew .dcf-hatch {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: .9;
+    stroke-linecap: round;
+    opacity: .32;
+}
+
+.dcf__crew .dcf-hatch--light {
+    stroke: #f3efe6;
+    opacity: .55;
+}
+
+.dcf__crew .dcf-beam {
+    fill: #ff4d3d;
+    stroke: #d92c22;
+    stroke-width: 1.2;
+}
+
+
