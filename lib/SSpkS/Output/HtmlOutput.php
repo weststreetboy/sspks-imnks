@@ -90,6 +90,10 @@ final class HtmlOutput
         $this->setVariable('seoKeywords', trim((string) $seoKeywords));
         $this->setVariable('canonicalUrl', $canonicalUrl);
         $this->setVariable('baseUrl', $this->config->baseUrl);
+        $updateAction = trim((string) ($this->config->update['action'] ?? ''));
+        $this->setVariable('updatePageUrl', $updateAction === ''
+            ? ''
+            : $this->config->baseUrlRelative . '?action=' . rawurlencode($updateAction));
         $structuredData = '';
         if ($_GET === []) {
             $encodedStructuredData = json_encode([

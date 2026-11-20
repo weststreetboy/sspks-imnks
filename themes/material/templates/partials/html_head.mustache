@@ -86,17 +86,4 @@
                 </div>
             </header>
             <main class="mdl-layout__content" id="main-content" tabindex="-1">
-{{^ hideSetupInfo }}
-{{^ arch }}
-                <div class="setup-info" id="setup-info" role="note">
-                    <div class="setup-info__inner">
-                        <span class="setup-info__label">{{ source_label }}</span>
-                        <code id="source-url">{{ baseUrl }}</code>
-                        <p>{{ source_help }}</p>
-                    </div>
-                    <button class="mdl-button mdl-button--raised" type="button" data-copy-source>{{ copy_address }}</button>
-                    <span class="visually-hidden" aria-live="polite" aria-atomic="true" data-copy-status></span>
-                </div>
-{{/ arch }}
-{{/ hideSetupInfo }}
                 <div class="page-content">

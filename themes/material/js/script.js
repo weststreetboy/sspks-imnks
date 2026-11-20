@@ -131,21 +131,26 @@
         }
 
         button.addEventListener('click', function () {
+            var label = button.querySelector('[data-copy-label]') || button;
+            var original = label.textContent;
             copyText(source.textContent.trim())
                 .then(function () {
-                    button.textContent = t('copied', 'Copied');
+                    label.textContent = t('copied', 'Copied');
                     if (status) {
                         status.textContent = t('copy_success_announcement', 'Package source URL copied to the clipboard.');
                     }
                     window.setTimeout(function () {
-                        button.textContent = t('copy_address', 'Copy address');
+                        label.textContent = original;
                     }, 1600);
                 })
                 .catch(function () {
-                    button.textContent = t('copy_manual', 'Copy manually');
+                    label.textContent = t('copy_manual', 'Copy manually');
                     if (status) {
                         status.textContent = t('copy_failure_announcement', 'Automatic copying failed. Copy the package source URL manually.');
                     }
+                    window.setTimeout(function () {
+                        label.textContent = original;
+                    }, 2400);
                 });
         });
     }

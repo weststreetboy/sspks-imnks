@@ -1,45 +1,193 @@
 {{> html_head }}
-<section class="page-hero">
-    <span class="eyebrow">DSM 7 PACKAGE SOURCE</span>
-    <h1>{{ model_title }}</h1>
-    <span class="page-hero__synology-mark" aria-hidden="true"></span>
-    <p>{{ model_intro }}</p>
-</section>
-<div class="model-toolbar" data-model-browser data-show-all="{{ modelShowAllByDefault }}" data-limit-desktop="{{ modelInitialDesktop }}" data-limit-mobile="{{ modelInitialMobile }}">
-    <label for="model-search">{{ model_search }}</label>
-    <input id="model-search" type="search" placeholder="{{ model_placeholder }}" autocomplete="off" enterkeyhint="search" data-model-search>
-    <div class="model-toolbar__status">
-        <span data-model-count role="status" aria-live="polite" aria-atomic="true"></span>
-        <button class="model-clear mdl-button" type="button" data-model-clear hidden>{{ clear_search }}</button>
-        <button class="model-toggle mdl-button" type="button" aria-controls="model-grid" data-model-toggle>{{ show_all }}</button>
+<section class="overview-hero">
+    <div class="overview-hero__text">
+        <span class="eyebrow">{{ overview_eyebrow }}</span>
+        <h1>{{ overview_title }}</h1>
     </div>
-    <p class="model-empty" data-model-empty role="status" hidden>{{ model_no_results }}</p>
-</div>
+{{# overviewHeaderText }}
+    <p class="overview-hero__meta">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8.4h.01M10.9 12h1.1v4.2"></path></svg>
+        {{ overviewHeaderText }}
+    </p>
+{{/ overviewHeaderText }}
+    <span class="page-hero__synology-mark" aria-hidden="true"></span>
+</section>
+
+<section class="source-card" id="setup-info" aria-labelledby="source-card-label">
+    <span class="source-card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3.2 3.6 7.1 12 11l8.4-3.9L12 3.2Z"></path><path d="M3.6 12 12 15.9 20.4 12"></path><path d="M3.6 16.9 12 20.8 20.4 16.9"></path></svg>
+    </span>
+    <div class="source-card__body">
+        <span class="source-card__label" id="source-card-label">{{ source_title }}</span>
+        <code class="source-card__url" id="source-url">{{ baseUrl }}</code>
+    </div>
+    <div class="source-card__actions">
+        <button class="mdl-button source-card__copy" type="button" data-copy-source>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="4" width="11" height="14" rx="2.4"></rect><path d="M15.5 18.5v.7A1.8 1.8 0 0 1 13.7 21H5.8A1.8 1.8 0 0 1 4 19.2V8.4A1.8 1.8 0 0 1 5.8 6.6h.7"></path></svg>
+            <span data-copy-label>{{ copy_address }}</span>
+        </button>
+{{# updatePageUrl }}
+        <a class="mdl-button source-card__edit" href="{{ updatePageUrl }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L20 8l-4-4L4 16v4Z"></path><path d="M14.5 5.5 18.5 9.5"></path></svg>
+            {{ edit_address }}
+        </a>
+{{/ updatePageUrl }}
+    </div>
+    <span class="visually-hidden" aria-live="polite" aria-atomic="true" data-copy-status></span>
+</section>
+
+<section class="stat-grid" aria-label="{{ overview_title }}">
+    <article class="stat-card">
+        <div class="stat-card__head">
+            <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3.2 3.6 7.1 12 11l8.4-3.9L12 3.2Z"></path><path d="M3.6 12 12 15.9 20.4 12"></path></svg>
+            </span>
+            <span>{{ metric_packages }}</span>
+            <svg class="stat-card__info" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8.4h.01M10.9 12h1.1v4.2"></path></svg>
+        </div>
+        <div class="stat-card__body">
+            <div class="stat-card__numbers">
+                <p class="stat-card__value">{{ overviewPackageTotal }}</p>
+                <p class="stat-card__sub">{{ overviewPackageSub }}</p>
+            </div>
+            <span class="stat-card__donut" style="--stat-value: {{ overviewStableRate }}%" aria-hidden="true"></span>
+        </div>
+        <p class="stat-card__foot"><span>{{ detail_label }} <b>{{ overviewStableRateLabel }}</b></span></p>
+    </article>
+
+    <article class="stat-card">
+        <div class="stat-card__head">
+            <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="3.4" y="4.2" width="17.2" height="12.6" rx="2.4"></rect><path d="M8 20.4h8M12 16.8v3.6"></path></svg>
+            </span>
+            <span>{{ metric_online }}</span>
+            <svg class="stat-card__info" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8.4h.01M10.9 12h1.1v4.2"></path></svg>
+        </div>
+        <div class="stat-card__body">
+            <div class="stat-card__numbers">
+                <p class="stat-card__value">{{ overviewOnline }}</p>
+                <p class="stat-card__sub">{{ overviewOnlineSub }}</p>
+            </div>
+            <span class="stat-card__bars" style="--stat-value: {{ overviewOnlineRateLabel }}" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+        <p class="stat-card__foot"><span>{{ detail_label }} <b>{{ overviewOnlineRateLabel }}</b></span></p>
+    </article>
+
+    <article class="stat-card">
+        <div class="stat-card__head">
+            <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.4" height="6.4" rx="1.4"></rect><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.4"></rect><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.4"></rect><rect x="13.6" y="13.6" width="6.4" height="6.4" rx="1.4"></rect></svg>
+            </span>
+            <span>{{ metric_arch }}</span>
+            <svg class="stat-card__info" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8.4h.01M10.9 12h1.1v4.2"></path></svg>
+        </div>
+        <div class="stat-card__body">
+            <div class="stat-card__numbers">
+                <p class="stat-card__value">{{ overviewArchTotal }}</p>
+                <p class="stat-card__sub">{{ metric_arch_sub }}</p>
+            </div>
+            <span class="stat-card__stack" aria-hidden="true">
+{{# overviewArchPreview }}<i style="flex: {{ count }}"></i>{{/ overviewArchPreview }}
+            </span>
+        </div>
+        <p class="stat-card__foot"><span>{{ detail_label }} <b>{{ overviewArchTopRateLabel }}</b></span></p>
+    </article>
+
+    <article class="stat-card">
+        <div class="stat-card__head">
+            <span class="stat-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 7.6h14M5 12h14M5 16.4h9"></path></svg>
+            </span>
+            <span>{{ metric_size }}</span>
+            <svg class="stat-card__info" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8.4h.01M10.9 12h1.1v4.2"></path></svg>
+        </div>
+        <div class="stat-card__body">
+            <div class="stat-card__numbers">
+                <p class="stat-card__value stat-card__value--size">{{ overviewTotalSize }}</p>
+                <p class="stat-card__sub">{{ overviewAverageSub }}</p>
+            </div>
+            <span class="stat-card__spark" aria-hidden="true">
+                <svg viewBox="0 0 64 34" preserveAspectRatio="none"><path d="M2 30 L16 30 L16 21 L32 21 L32 14 L46 14 L46 8 L62 4"></path></svg>
+            </span>
+        </div>
+        <p class="stat-card__foot"><span>{{ detail_label }} <b>{{ overviewMaxLabel }}</b></span></p>
+    </article>
+</section>
+
+<section class="steps-panel" aria-labelledby="steps-panel-title">
+    <header class="steps-panel__head">
+        <h2 id="steps-panel-title">{{ steps_title }}</h2>
+        <span>{{ steps_done }}</span>
+    </header>
+    <ol class="steps-panel__list">
+        <li>
+            <span class="steps-panel__index">1</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_one_title }}</p>
+                <p class="steps-panel__desc">{{ step_one_desc }}</p>
+            </div>
+        </li>
+        <li>
+            <span class="steps-panel__index">2</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_two_title }}</p>
+                <p class="steps-panel__desc">{{ step_two_desc }}</p>
+            </div>
+        </li>
+        <li>
+            <span class="steps-panel__index">3</span>
+            <div class="steps-panel__body">
+                <p class="steps-panel__title">{{ step_three_title }}</p>
+                <p class="steps-panel__desc">{{ step_three_desc }}</p>
+            </div>
+        </li>
+    </ol>
+</section>
+
+<section class="model-block" aria-labelledby="model-block-title">
+    <header class="model-block__head">
+        <div>
+            <span class="eyebrow">DSM 7 PACKAGE SOURCE</span>
+            <h2 id="model-block-title">{{ models_title }}</h2>
+            <p>{{ model_intro }}</p>
+        </div>
+    </header>
+    <div class="model-toolbar" data-model-browser data-show-all="{{ modelShowAllByDefault }}" data-limit-desktop="{{ modelInitialDesktop }}" data-limit-mobile="{{ modelInitialMobile }}">
+        <label for="model-search">{{ model_search }}</label>
+        <input id="model-search" type="search" placeholder="{{ model_placeholder }}" autocomplete="off" enterkeyhint="search" data-model-search>
+        <div class="model-toolbar__status">
+            <span data-model-count role="status" aria-live="polite" aria-atomic="true"></span>
+            <button class="model-clear mdl-button" type="button" data-model-clear hidden>{{ clear_search }}</button>
+            <button class="model-toggle mdl-button" type="button" aria-controls="model-grid" data-model-toggle>{{ show_all }}</button>
+        </div>
+        <p class="model-empty" data-model-empty role="status" hidden>{{ model_no_results }}</p>
+    </div>
 {{# advertisementEnabled }}
-<aside class="model-ad" aria-label="{{ advertisement }}" style="--advertisement-ratio: {{ advertisementWidth }} / {{ advertisementHeight }};" data-ad-carousel data-ad-interval="{{ advertisementInterval }}" aria-busy="true">
+    <aside class="model-ad" aria-label="{{ advertisement }}" style="--advertisement-ratio: {{ advertisementWidth }} / {{ advertisementHeight }};" data-ad-carousel data-ad-interval="{{ advertisementInterval }}" aria-busy="true">
 {{# advertisementItems }}
-    <a class="ad-banner" href="{{ target_url }}" target="_blank" rel="noopener noreferrer sponsored" aria-label="{{ alt }}" aria-hidden="true" data-ad-slide hidden>
-        <img data-src="{{ image_url }}" alt="{{ alt }}" width="{{ advertisementWidth }}" height="{{ advertisementHeight }}" decoding="async" fetchpriority="low">
-    </a>
+        <a class="ad-banner" href="{{ target_url }}" target="_blank" rel="noopener noreferrer sponsored" aria-label="{{ alt }}" aria-hidden="true" data-ad-slide hidden>
+            <img data-src="{{ image_url }}" alt="{{ alt }}" width="{{ advertisementWidth }}" height="{{ advertisementHeight }}" decoding="async" fetchpriority="low">
+        </a>
 {{/ advertisementItems }}
 {{# advertisementHasMultiple }}
-    <div class="ad-carousel__dots" role="group" aria-label="{{ advertisement }}">
-    {{# advertisementItems }}
-        <button type="button" aria-label="{{ advertisement }} {{ position }}" aria-current="false" data-ad-index="{{ index }}"></button>
-    {{/ advertisementItems }}
-    </div>
-{{/ advertisementHasMultiple }}
-</aside>
-{{/ advertisementEnabled }}
-<noscript><style>.model-ad { display: none; }</style></noscript>
-<div class="mdl-grid model-grid" id="model-grid" data-model-grid>
-{{# modellist }}
-    <a class="mdl-cell mdl-cell--2-col mdl-cell--3-col-phone mdl-card small-card clickable-card" href="?arch={{ arch }}" data-model-card data-model-name="{{ name }} {{ arch }}" {{# priority_rank }}data-priority-rank="{{ priority_rank }}"{{/ priority_rank }}>
-        <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">{{ name }}</h2>
-            <span class="model-arch">{{ arch }}</span>
+        <div class="ad-carousel__dots" role="group" aria-label="{{ advertisement }}">
+{{# advertisementItems }}
+            <button type="button" aria-label="{{ advertisement }} {{ position }}" aria-current="false" data-ad-index="{{ index }}"></button>
+{{/ advertisementItems }}
         </div>
-    </a>
+{{/ advertisementHasMultiple }}
+    </aside>
+{{/ advertisementEnabled }}
+    <noscript><style>.model-ad { display: none; }</style></noscript>
+    <div class="mdl-grid model-grid" id="model-grid" data-model-grid>
+{{# modellist }}
+        <a class="mdl-cell mdl-cell--2-col mdl-cell--3-col-phone mdl-card small-card clickable-card" href="?arch={{ arch }}" data-model-card data-model-name="{{ name }} {{ arch }}"{{# priority_rank }}data-priority-rank="{{ priority_rank }}"{{/ priority_rank }}>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{ name }}</h2>
+                <span class="model-arch">{{ arch }}</span>
+            </div>
+        </a>
 {{/ modellist }}
-</div>
+    </div>
+</section>
 {{> html_tail }}
