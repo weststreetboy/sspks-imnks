@@ -4,11 +4,13 @@
 FROM php:8.4-fpm-alpine
 
 RUN set -eux; \
-    apk add --no-cache nginx supervisor tzdata oniguruma sqlite-libs; \
-    apk add --no-cache --virtual .build-deps oniguruma-dev sqlite-dev; \
-    docker-php-ext-install -j"$(nproc)" pdo_mysql pdo_sqlite mbstring; \
+    apk add --no-cache nginx supervisor tzdata oniguruma sqlite-libs libpng libjpeg-turbo freetype libwebp; \
+    apk add --no-cache --virtual .build-deps oniguruma-dev sqlite-dev libpng-dev libjpeg-turbo-dev freetype-dev libwebp-dev; \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
+    docker-php-ext-install -j"$(nproc)" gd pdo_mysql pdo_sqlite mbstring; \
     apk del --no-network .build-deps; \
-    rm -rf /var/cache/apk/* /tmp/pear
+    rm -rf /var/cache/apk/* /tmp/pear; \
+    php -r 'exit(function_exists("imagewebp") && function_exists("imagecreatefromstring") ? 0 : 1);'
 
 WORKDIR /var/www/sspks-imnks
 

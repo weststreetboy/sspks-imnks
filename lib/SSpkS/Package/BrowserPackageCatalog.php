@@ -110,6 +110,21 @@ final class BrowserPackageCatalog
             $thumbnailPaths = array_slice((array) ($metadata['thumbnail'] ?? []), 0, 1);
             $metadata['thumbnail_url'] = $this->imageObfuscator->publishUrls($thumbnailPaths);
         }
+        // Never leave the card with an empty src: when the icon cannot be published
+        // (missing GD/WebP support, unreadable archive) fall back to the theme icon.
+        $thumbnailUrls = array_values((array) ($metadata['thumbnail_url'] ?? []));
+        $thumbnailUrls = array_values(array_filter($thumbnailUrls, static function ($url): bool {
+            return is_string($url) && trim($url) !== '';
+        }));
+        if ($thumbnailUrls === []) {
+            // Unobfuscated deployments keep the raw thumbnail path; otherwise use the theme icon.
+            $rawThumbnail = array_slice((array) ($metadata['thumbnail'] ?? []), 0, 1);
+            $fallback = isset($rawThumbnail[0]) && is_string($rawThumbnail[0]) && trim($rawThumbnail[0]) !== ''
+                ? trim($rawThumbnail[0])
+                : $this->defaultIconUrl();
+            $thumbnailUrls = [$fallback];
+        }
+        $metadata['thumbnail_url'] = $thumbnailUrls;
 
         $maintainer = trim((string) ($metadata['maintainer'] ?? ''));
         if ($maintainer === '') {
@@ -182,6 +197,14 @@ final class BrowserPackageCatalog
             ];
         }
         return $badges;
+    }
+
+    private function defaultIconUrl(): string
+    {
+        $path = trim(str_replace('\\', '/', (string) ($this->config->paths['themes'] ?? 'themes/')), '/');
+        return $this->config->baseUrlRelative . $path . '/'
+            . trim((string) ($this->config->site['theme'] ?? 'material'), '/')
+            . '/images/default_package_icon_72.png';
     }
 
     private function safeHttpUrl(string $url): string
