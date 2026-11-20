@@ -111,6 +111,8 @@ return json_decode(<<<'JSON'
         "upload_too_big": "The file exceeds the server upload limit.",
         "upload_failed": "Upload failed. Try again later.",
         "upload_no_file": "No file received. Choose a file again.",
+        "upload_auth_invalid": "The management password is incorrect or not configured.",
+        "upload_auth_rate_limited": "Too many password failures. Wait one minute before trying again.",
         "index_verify": "Full verification",
         "index_added": "Added",
         "index_changed": "Changed",

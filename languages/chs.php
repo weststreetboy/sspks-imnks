@@ -111,6 +111,8 @@ return json_decode(<<<'JSON'
         "upload_too_big": "文件超过服务器允许的上传大小。",
         "upload_failed": "上传失败，请稍后重试。",
         "upload_no_file": "没有收到文件，请重新选择。",
+        "upload_auth_invalid": "管理密码错误或尚未配置，请检查后重新输入。",
+        "upload_auth_rate_limited": "密码错误次数过多，请等待一分钟后再试。",
         "index_verify": "完整校验",
         "index_added": "新增",
         "index_changed": "变更",

@@ -65,7 +65,7 @@ final class UploadHandler extends AbstractHandler
         if ($this->isRateLimited()) {
             http_response_code(429);
             header('Retry-After: 60');
-            $this->emit(['ok' => false, 'message' => $this->language->get('auth_rate_limited')]);
+            $this->emit(['ok' => false, 'message' => $this->language->get('upload_auth_rate_limited')]);
             return;
         }
 
@@ -74,7 +74,7 @@ final class UploadHandler extends AbstractHandler
         if ($token === '' || $configured === '' || !hash_equals($configured, $token)) {
             $this->recordAuthFailure();
             http_response_code(401);
-            $this->emit(['ok' => false, 'message' => $this->language->get('auth_invalid')]);
+            $this->emit(['ok' => false, 'message' => $this->language->get('upload_auth_invalid')]);
             return;
         }
         $this->clearAuthFailures();

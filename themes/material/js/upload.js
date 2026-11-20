@@ -43,11 +43,11 @@
                         try { data = JSON.parse(xhr.responseText); } catch (error) { data = null; }
                     }
                     if (xhr.status === 401 || xhr.status === 403) {
-                        reject(t('auth_invalid', 'The upload password is incorrect or not configured.'));
+                        reject(t('upload_auth_invalid', 'The management password is incorrect or not configured.'));
                         return;
                     }
                     if (xhr.status === 429) {
-                        reject(t('auth_rate_limited', 'Too many password failures. Wait one minute before trying again.'));
+                        reject(t('upload_auth_rate_limited', 'Too many password failures. Wait one minute before trying again.'));
                         return;
                     }
                     if (!data) { reject(t('upload_failed', 'Upload failed. Try again later.')); return; }
