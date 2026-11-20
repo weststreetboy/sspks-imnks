@@ -2056,3 +2056,185 @@ html[data-palette='aurora'] {
     .spk-meta { padding: 0 14px; }
     .spk-card__heading .spk-version { font-size: .74rem; }
 }
+
+/* ==========================================================================
+   玻璃拟态外观（取自 GlassWorkspace 的 gw-glass 参数化材质）
+   可调旋钮：--glass-blur（模糊）/ --glass-opacity（面板底色透明度）/
+             --glass-saturation（饱和度）/ --glass-edge（边缘高光）/ --glass-tint
+   ========================================================================== */
+
+:root {
+    --glass-blur: 22px;
+    --glass-saturation: 1.2;
+    --glass-opacity: .55;
+    --glass-edge: .6;
+    --glass-tint: #ffffff;
+    --glass-surface: var(--surface);
+    --glass-shadow: color-mix(in srgb, var(--brand-950) 24%, transparent);
+    --glass-bg: color-mix(in srgb, var(--glass-surface) calc(var(--glass-opacity) * 100%), transparent);
+    --glass-line: color-mix(in srgb, var(--glass-tint) calc(var(--glass-edge) * 34%), transparent);
+    --glass-sheen: color-mix(in srgb, var(--glass-tint) calc(var(--glass-edge) * 100%), transparent);
+}
+
+html[data-palette='dark'] {
+    --glass-opacity: .42;
+    --glass-tint: #ffffff;
+    --glass-shadow: rgba(0, 0, 0, .62);
+}
+
+html[data-palette='aurora'] {
+    --glass-opacity: .40;
+    --glass-tint: #cfc9ff;
+    --glass-shadow: rgba(0, 0, 0, .66);
+}
+
+/* 背景：三团柔光叠在页面底色上，玻璃面板才有东西可以"透" */
+body {
+    background: var(--page);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(58% 46% at 10% 2%, color-mix(in srgb, var(--brand-600) 34%, transparent) 0%, transparent 68%),
+        radial-gradient(44% 40% at 92% 8%, rgba(139, 92, 246, .32) 0%, transparent 70%),
+        radial-gradient(66% 54% at 50% 104%, color-mix(in srgb, var(--brand-700) 28%, transparent) 0%, transparent 74%),
+        var(--page);
+}
+
+.mdl-layout,
+.mdl-layout__content,
+.mdl-layout__header-row,
+.page-content {
+    background: transparent;
+}
+
+/* --- 玻璃面板：材质与光影 --- */
+.site-header.mdl-layout__header,
+.setup-info,
+.model-toolbar,
+.catalog-summary,
+.spk-card,
+.small-card,
+.update-panel,
+.site-footer {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    box-shadow:
+        inset 0 1px 0 var(--glass-sheen),
+        inset 0 0 0 1px var(--glass-line),
+        0 20px 52px -25px var(--glass-shadow);
+}
+
+/* 顶部导航：叠一层品牌色玻璃 */
+.site-header.mdl-layout__header {
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--glass-tint) 10%, transparent) 0%, transparent 100%),
+        color-mix(in srgb, var(--brand-900) 58%, transparent);
+    border-bottom: 1px solid var(--glass-line);
+    box-shadow:
+        inset 0 -1px 0 color-mix(in srgb, var(--glass-tint) 22%, transparent),
+        0 14px 40px -24px var(--glass-shadow);
+}
+
+.site-header.mdl-layout__header .mdl-layout__header-row {
+    border-bottom: 0;
+}
+
+/* 页脚：更薄的玻璃条 */
+.site-footer {
+    margin-top: 40px;
+    border-top: 1px solid var(--glass-line);
+    border-radius: 24px 24px 0 0;
+}
+
+/* 卡片：玻璃 + 更亮边缘，悬停时玻璃稍微"抬起" */
+.spk-card,
+.small-card {
+    background: var(--glass-bg);
+    border: 1px solid transparent;
+    transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.spk-card:hover,
+.small-card:hover {
+    transform: translateY(-4px);
+    background: color-mix(in srgb, var(--glass-surface) calc((var(--glass-opacity) + .10) * 100%), transparent);
+    box-shadow:
+        inset 0 1px 0 var(--glass-sheen),
+        inset 0 0 0 1px color-mix(in srgb, var(--brand-600) 45%, var(--glass-line)),
+        0 28px 64px -28px var(--glass-shadow);
+}
+
+/* 内部元素不要再叠不透明底色，避免玻璃变"实心" */
+.spk-card .mdl-card__supporting-text,
+.spk-card .mdl-card__actions,
+.spk-card__header,
+.catalog-summary,
+.model-toolbar,
+.update-panel,
+.setup-info {
+    background: transparent;
+}
+
+/* 输入框、分段按钮保持可用的对比度 */
+.model-toolbar input,
+.update-form input {
+    background: color-mix(in srgb, var(--glass-tint) 22%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* 主按钮：玻璃高光 + 品牌色 */
+.mdl-button--raised.mdl-button--colored {
+    border-radius: 10px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .45),
+        0 12px 26px -14px var(--action-shadow);
+}
+
+.mdl-button--raised.mdl-button--colored:hover {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .55),
+        0 18px 34px -14px var(--action-shadow);
+}
+
+/* 浏览器不支持 backdrop-filter 时退回实心面板，保证文字可读 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header.mdl-layout__header,
+    .setup-info,
+    .model-toolbar,
+    .catalog-summary,
+    .spk-card,
+    .small-card,
+    .update-panel,
+    .site-footer {
+        background: var(--surface);
+    }
+}
+
+@media (max-width: 599px) {
+    :root { --glass-blur: 16px; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .site-header.mdl-layout__header,
+    .setup-info,
+    .model-toolbar,
+    .catalog-summary,
+    .spk-card,
+    .small-card,
+    .update-panel,
+    .site-footer {
+        background: var(--surface);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    body::before { display: none; }
+}
