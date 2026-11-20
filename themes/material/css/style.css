@@ -3815,6 +3815,8 @@ body {
 
 .dcf__letter {
     display: inline-block;
+    position: relative;
+    z-index: 2;
     opacity: 0;
     /* 干笔刷质感：竖向细纹理只出现在字里 */
     background-image: repeating-linear-gradient(96deg,
@@ -3881,6 +3883,7 @@ body {
 /* 字上的一小队手绘角色 */
 .dcf__crew {
     position: absolute;
+    z-index: 3;
     margin: 0;
     opacity: 0;
     transform: translateY(14px) scale(.92);
@@ -3955,8 +3958,8 @@ body {
 
 /* 戴宽檐帽的小孩 */
 .dcf__crew--kid {
-    left: 43.5%;
-    bottom: calc(80% - 19px);
+    left: 48.4%;
+    bottom: calc(80% - 14px);
     width: clamp(32px, 3.6vw, 52px);
     --idle-amp: -2.2px;
     --idle-rot: .8deg;
